@@ -54,7 +54,7 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
   const { title, deadline } = request.body;
 
   const todoOperation = {
-    id: uuidv4,
+    id: uuidv4(),
     title,
     done: false,
     deadline: new Date(deadline),
@@ -71,10 +71,10 @@ app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
   const { title, deadline } = request.body;
   const { id } = request.params;
   
-  user.todos.find(todo => todo.id === id);
+  const todo = user.todos.find(todo => todo.id === id);
 
   if(!todo){
-    return response.status(400).json({ error:"Todo not found!" })
+    return response.status(404).json({ error:"Todo not found!" })
   }
 
   todo.title = title;
